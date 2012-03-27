@@ -33,8 +33,11 @@ class Hypothesis(models.Model):
 		sorted_ids=sorted(scores, key=lambda x: (scores[x]['score'],scores[x]['num_up_votes']),reverse=True)
 		return sorted_ids
 
-	def get_top_evidence_items(self):
-		return [j for i,j in Evidence.objects.in_bulk(self.get_top_evidence_ids()).items()]	
+	def get_ordered_evidence_items(self):
+		voted_ids=self.get_top_evidence_ids()
+		other_ids=[item.id for item in self.evidenceset.exclude(id__in=voted_ids)]
+		all_ids=voted_ids+other_ids
+		return [j for i,j in Evidence.objects.in_bulk(all_ids).items()]	
 
 	def get_summaries_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.summaries.all())
@@ -45,8 +48,11 @@ class Hypothesis(models.Model):
 		sorted_ids=sorted(scores, key=lambda x: (scores[x]['score'],scores[x]['num_up_votes']),reverse=True)
 		return sorted_ids
 
-	def get_top_summary_items(self):
-		return [j for i,j in Summary.objects.in_bulk(self.get_top_summary_ids()).items()]	
+	def get_ordered_summary_items(self):
+		voted_ids=self.get_top_summary_ids()
+		other_ids=[item.id for item in self.summaries.exclude(id__in=voted_ids)]
+		all_ids=voted_ids+other_ids
+		return [j for i,j in Summary.objects.in_bulk(all_ids.items()]	
 		
 	def get_descriptions_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.descriptions.all())
@@ -57,5 +63,8 @@ class Hypothesis(models.Model):
 		sorted_ids=sorted(scores, key=lambda x: (scores[x]['score'],scores[x]['num_up_votes']),reverse=True)
 		return sorted_ids	
 	
-	def get_top_description_items(self):
-		return [j for i,j in Description.objects.in_bulk(self.get_top_description_ids()).items()]
+	def get_ordered_description_items(self):
+		voted_ids=self.get_top_description_ids()
+		other_ids=[item.id for item in self.descriptions.exclude(id__in=voted_ids)]
+		all_ids=voted_ids+other_ids
+		return [j for i,j in Description.objects.in_bulk(all_ids.items()]
