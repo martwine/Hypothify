@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from hypothify.evidences.models import Evidence
 from hypothify.UTIs.models import Description, Summary
 from voting.models import Vote
 
@@ -33,10 +34,10 @@ class Hypothesis(models.Model):
 		return sorted_ids
 
 	def get_top_evidence_items(self):
-		return [j for i,j in Evidence.objects.in_bulk(h.get_top_evidence_ids()).items()]	
+		return [j for i,j in Evidence.objects.in_bulk(self.get_top_evidence_ids()).items()]	
 
 	def get_summaries_voteinfo(self):
-		scores=Vote.objects.get_scores_in_bulk(self.summaries)
+		scores=Vote.objects.get_scores_in_bulk(self.summaries.all())
 		return scores
 
 	def get_top_summary_ids(self):
@@ -45,10 +46,10 @@ class Hypothesis(models.Model):
 		return sorted_ids
 
 	def get_top_summary_items(self):
-		return [j for i,j in Evidence.objects.in_bulk(h.get_top_summary_ids()).items()]	
+		return [j for i,j in Summary.objects.in_bulk(self.get_top_summary_ids()).items()]	
 		
 	def get_descriptions_voteinfo(self):
-		scores=Vote.objects.get_scores_in_bulk(self.descriptions)
+		scores=Vote.objects.get_scores_in_bulk(self.descriptions.all())
 		return scores
 		
 	def get_top_description_ids(self):
@@ -57,4 +58,4 @@ class Hypothesis(models.Model):
 		return sorted_ids	
 	
 	def get_top_description_items(self):
-		return [j for i,j in Evidence.objects.in_bulk(h.get_top_description_ids()).items()]
+		return [j for i,j in Description.objects.in_bulk(self.get_top_description_ids()).items()]

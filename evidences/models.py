@@ -3,7 +3,6 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 
-from hypothify.hypotheses.models import Hypothesis
 from hypothify.UTIs.models import Description, Summary
 
 from voting.managers import VoteManager
@@ -16,7 +15,7 @@ class EvidenceType(models.Model):
 
 class Evidence(models.Model):
 	url=models.URLField()
-	hypothesis=models.ForeignKey(Hypothesis, related_name='evidenceset')
+	hypothesis=models.ForeignKey('hypotheses.Hypothesis', related_name='evidenceset')
 	originator_name=models.CharField(max_length=100)
 	originator_unique=models.CharField(max_length=100)
 	originator_user=models.ForeignKey(User, blank=True, null=True)
