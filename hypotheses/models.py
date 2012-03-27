@@ -52,7 +52,7 @@ class Hypothesis(models.Model):
 		voted_ids=self.get_top_summary_ids()
 		other_ids=[item.id for item in self.summaries.exclude(id__in=voted_ids)]
 		all_ids=voted_ids+other_ids
-		return [j for i,j in Summary.objects.in_bulk(all_ids.items()]	
+		return [j for i,j in Summary.objects.in_bulk(all_ids).items()]	
 		
 	def get_descriptions_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.descriptions.all())
@@ -67,4 +67,4 @@ class Hypothesis(models.Model):
 		voted_ids=self.get_top_description_ids()
 		other_ids=[item.id for item in self.descriptions.exclude(id__in=voted_ids)]
 		all_ids=voted_ids+other_ids
-		return [j for i,j in Description.objects.in_bulk(all_ids.items()]
+		return [j for i,j in Description.objects.in_bulk(all_ids).items()]
