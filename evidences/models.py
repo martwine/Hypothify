@@ -6,6 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from hypothify.UTIs.models import Description, Summary
 
 from voting.managers import VoteManager
+from voting.models import Vote
 
 class EvidenceType(models.Model):
 	name=models.CharField(max_length=50)
@@ -38,7 +39,10 @@ class Evidence(models.Model):
 	def get_descriptions_voteinfo(self):
 		scores=get_scores_in_bulk(self.descriptions)
 		return scores
-		
+
+	def get_votescore(self):
+		numbers=Vote.objects.get_score(self)
+		return numbers['score']
 
 
 		
