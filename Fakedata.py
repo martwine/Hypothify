@@ -27,11 +27,14 @@ evt.save()
 
 ev=Evidence(hypothesis=h,url="http://strawman.com", originator_name="Blog Joes",originator_unique="@BJ",introducer=u,uri="strawman",evidence_type=evt)
 ev.save()
+ed1=Description(content="some evidence shows Xand Y but not Z", originator=u,summ_object=ev)
+ed1.save()
+
 
 ev2=Evidence(hypothesis=h,url="http://stoneman.com", originator_name="Blog Joes",originator_unique="@BJ",introducer=u,uri="stoneman",for_hypothesis=False,evidence_type=evt)
 ev2.save()
 
-ev3=Evidence(hypothesis=h,url="http://hayman.com", originator_name="Blog Joes",originator_unique="@BJ",introducer=u,uri="hayman",for_hypothesis=True,evidence_type=evt)
+ev3=Evidence(hypothesis=h,url="httpE	://hayman.com", originator_name="Blog Joes",originator_unique="@BJ",introducer=u,uri="hayman",for_hypothesis=True,evidence_type=evt)
 ev3.save()
 
 ev4=Evidence(hypothesis=h,url="http://crap.com", originator_name="Harry Hill", originator_unique="badgerbadger", introducer=u,uri="bollokcs",for_hypothesis=False,evidence_type=evt)

@@ -6,9 +6,12 @@
 
 {% for e in h_eset %}
 <div class="evidence_item">
-	{{e}}
+	{{e}}<br />
 	{{e.originator_name}}
 	{{e.introducer}}
+	score: {{e.get_votescore}}
+	<br />
+	description: {{e.get_top_description}}
 </div>
 {% endfor %}
 
