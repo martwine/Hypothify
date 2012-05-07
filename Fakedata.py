@@ -25,15 +25,17 @@ evt.save()
 evt2=EvidenceType(name="blog post")
 evt.save()
 
-ev=Evidence(hypothesis=h,url="http://strawman.com", originator_name="Blog 					Joes",originator_unique="@BJ",introducer=u,uri="strawman",evidence_type=evt)
+ev=Evidence(hypothesis=h,url="http://strawman.com", originator_name="Blog Joes",originator_unique="@BJ",introducer=u,uri="strawman",evidence_type=evt)
 ev.save()
 
-ev2=Evidence(hypothesis=h,url="http://stoneman.com", originator_name="Blog       Joes",originator_unique="@BJ",introducer=u,uri="stoneman",for_hypothesis=False,evidence_type=evt)
+ev2=Evidence(hypothesis=h,url="http://stoneman.com", originator_name="Blog Joes",originator_unique="@BJ",introducer=u,uri="stoneman",for_hypothesis=False,evidence_type=evt)
 ev2.save()
 
-ev3=Evidence(hypothesis=h,url="http://hayman.com", originator_name="Blog       Joes",originator_unique="@BJ",introducer=u,uri="hayman",for_hypothesis=True,evidence_type=evt)
+ev3=Evidence(hypothesis=h,url="http://hayman.com", originator_name="Blog Joes",originator_unique="@BJ",introducer=u,uri="hayman",for_hypothesis=True,evidence_type=evt)
 ev3.save()
 
+ev4=Evidence(hypothesis=h,url="http://crap.com", originator_name="Harry Hill", originator_unique="badgerbadger", introducer=u,uri="bollokcs",for_hypothesis=False,evidence_type=evt)
+ev4.save()
 
 Vote.objects.record_vote(ev,u,+1)
 Vote.objects.record_vote(ev,u3,+1)
