@@ -27,3 +27,4 @@ def detail(request,hypothesis_id,**kwargs):
 				'h_top_summ':s1
 			}
 	)
+
