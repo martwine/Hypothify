@@ -7,7 +7,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'hypothify.views.home', name='home'),
+     url(r'^$', 'Hypothify.views.home', name='home'),
      url(r'^hypotheses/(?P<hypothesis_id>\d+)/$','hypotheses.views.detail'),
 
     # Uncomment the admin/doc line below to enable admin documentation:
