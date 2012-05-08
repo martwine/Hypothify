@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from hypothify.evidences.models import Evidence
-from hypothify.UTIs.models import Description, Summary
+from evidences.models import Evidence
+from UTIs.models import Description, Summary
 from voting.models import Vote
 
 
