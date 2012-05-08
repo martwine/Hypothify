@@ -7,6 +7,7 @@ from UTIs.models import Description, Summary
 from voting.models import Vote
 
 
+
 class Hypothesis(models.Model):
 	proposer=models.ForeignKey(User,related_name='hypothesis_proposerset')
 	proposer_description=models.CharField(max_length=200)
