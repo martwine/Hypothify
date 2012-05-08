@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from hypothify.UTIs.models import Description, Summary
+from UTIs.models import Description, Summary
 from voting.models import Vote
 
 class EvidenceType(models.Model):
