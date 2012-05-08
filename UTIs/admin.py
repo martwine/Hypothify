@@ -1,4 +1,4 @@
-from hypothify.UTIs.models import *
+from UTIs.models import *
 
 from django.contrib import admin
 
