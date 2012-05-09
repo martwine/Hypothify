@@ -1,0 +1,9 @@
+{% block content %}
+    <h2>Hypotheses</h2>
+    <ul>
+        {% for hypothesis in object_list %}
+            <li>{{ hypothesis }}</li>
+	    <li>{{ hypothesis.proposer}}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
