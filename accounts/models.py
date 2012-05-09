@@ -8,9 +8,8 @@ class UserProfile(models.Model):
 	score=models.IntegerField(default=0)
 	url=models.CharField(max_length=200, blank=True)
 
-	def create_user_profile(sender,instance,created, **kwargs):
-		if created:
-			profile, created = UserProfile.objects.get_or_create(user=instance)
+	def create_user_profile(sender,instance, **kwargs):
+		profile, created = UserProfile.objects.get_or_create(user=instance)
 
 	post_save.connect(create_user_profile, sender=User)
 
