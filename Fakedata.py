@@ -3,9 +3,9 @@ from django.contrib.contenttypes import generic
 from django.contrib.auth.models import User
 from voting.models import Vote
 from voting.managers import VoteManager
-from hypothify.hypotheses.models import Hypothesis
-from hypothify.evidences.models import EvidenceType, Evidence
-from hypothify.UTIs.models import Summary, Description, Commentary
+from hypotheses.models import Hypothesis
+from evidences.models import EvidenceType, Evidence
+from UTIs.models import Summary, Description, Commentary
 
 
 u=User.objects.all()[0]
