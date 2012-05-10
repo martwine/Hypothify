@@ -14,7 +14,7 @@ urlpatterns = patterns('',
 
      #accounts (login, logout etc)
      (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'accounts/login.html'}),
-
+     (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
      url(r'^hypothesis/(?P<hypothesis_id>\d+)/$','hypotheses.views.detail'),
      url(r'^hypothesis/add', login_required(CreateView.as_view(model=Hypothesis))),
     # Uncomment the admin/doc line below to enable admin documentation:
