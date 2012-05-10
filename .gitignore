@@ -9,6 +9,10 @@
 *.html~
 .gitignore~
 
+#pydev#
+##############
+.project
+.pydevproject
 
 #install specific#
 #################
