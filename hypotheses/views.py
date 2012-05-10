@@ -3,12 +3,12 @@ from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
 from hypotheses.models import Hypothesis
 from hypotheses.forms import HypothesisForm
-from evidences.models import Evidence
 
 
-# use special form for Hypothesis create generic view to omit fields
+# use special form for Hypothesis create generic view to omit fields and redirect to created object
 class HypothesisCreate(CreateView):
 	form_class=HypothesisForm
+	
 	
 	def form_valid(self,form):
 		self.object = form.save(commit=False)

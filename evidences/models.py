@@ -15,7 +15,7 @@ class Evidence(models.Model):
 	url=models.URLField()
 	hypothesis=models.ForeignKey('hypotheses.Hypothesis', related_name='evidenceset')
 	originator_name=models.CharField(max_length=100)
-	originator_unique=models.CharField(max_length=100)
+	originator_unique=models.CharField(max_length=100, blank=True)
 	originator_user=models.ForeignKey(User, blank=True, null=True)
 	introducer=models.ForeignKey(User, related_name='evidence_introducerset')
 	for_hypothesis=models.BooleanField(default=True)

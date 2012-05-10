@@ -23,7 +23,7 @@ s1.save()
 evt=EvidenceType(name="Journal article")
 evt.save()
 evt2=EvidenceType(name="blog post")
-evt.save()
+evt2.save()
 
 ev=Evidence(hypothesis=h,url="http://strawman.com", originator_name="Blog Joes",originator_unique="@BJ",introducer=u,uri="strawman",evidence_type=evt)
 ev.save()
