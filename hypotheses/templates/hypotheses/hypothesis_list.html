@@ -1,4 +1,6 @@
-{% block content %}
+{% extends "base.html" %}
+
+{% block pagecontent %}
     <h2>Hypotheses</h2>
     <ul>
         {% for hypothesis in object_list %}
