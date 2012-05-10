@@ -1,6 +1,22 @@
 from django.shortcuts import render_to_response, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.views.generic import CreateView
 from hypotheses.models import Hypothesis
+from hypotheses.forms import HypothesisForm
 from evidences.models import Evidence
+
+
+# use special form for Hypothesis create generic view to omit fields
+class HypothesisCreate(CreateView):
+	form_class=HypothesisForm
+	
+	def form_valid(self,form):
+		self.object = form.save(commit=False)
+		self.object.proposer = self.request.user
+		self.object.save()
+		redirect_url = '/hypothesis/%d' % self.object.id 
+		return HttpResponseRedirect(redirect_url)
+
 
 def detail(request,hypothesis_id,**kwargs):
 

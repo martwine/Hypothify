@@ -1,8 +1,8 @@
-from django import forms
+from django.forms import ModelForm
 from hypotheses.models import Hypothesis
 
 #exclude status field from generic view
-class HypothesisForm(forms.ModelForm):
+class HypothesisForm(ModelForm):
     class Meta:
-        model=Hypothesis
-        exclude=('status')
+        model = Hypothesis
+        exclude=('status','proposer')
