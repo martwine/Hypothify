@@ -1,0 +1,18 @@
+<html lang="en">
+	<head>
+		<title>{% block title %}{% endblock %} | Hypothify</title>
+		<link rel="stylesheet" type="text/css" href="{{urlbase}}/media/hypothify.css">
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="description" content="{% block description %}{% endblock %}">
+		<meta name="keywords" content="{% block keywords %}{% endblock %}">
+	</head>
+
+	<body>
+		<div id="hypothify">
+			{% block pagetop %}{% endblock%}
+			{% block pagecontent %} {% endblock %}			
+		</div>
+	</body>
+
+</html>
