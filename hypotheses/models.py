@@ -12,7 +12,7 @@ class Hypothesis(models.Model):
 	proposer=models.ForeignKey(User,related_name='hypothesis_proposerset')
 	proposer_description=models.CharField(max_length=200)
 	originator_name=models.CharField(max_length=100)
-	originator_unique=models.CharField(max_length=100)
+	originator_unique=models.CharField(max_length=100, blank=True)
 	originator_user=models.ForeignKey(User, blank=True, null=True, related_name='hypothesis_originatorset')
 	status=models.CharField(max_length=50, blank=True, null=True)
 		
