@@ -8,8 +8,12 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    # Examples:
+     #home view
      url(r'^$', ListView.as_view(model=Hypothesis,)),
+
+     #accounts (login, logout etc)
+     (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'accounts/login.html'}),
+
      url(r'^hypothesis/(?P<hypothesis_id>\d+)/$','hypotheses.views.detail'),
      url(r'^hypothesis/add', CreateView.as_view(model=Hypothesis)),
     # Uncomment the admin/doc line below to enable admin documentation:
