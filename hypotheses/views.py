@@ -28,3 +28,4 @@ def detail(request,hypothesis_id,**kwargs):
 			}
 	)
 
+
