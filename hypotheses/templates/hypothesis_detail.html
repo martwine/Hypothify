@@ -1,4 +1,6 @@
+{% extends "base.html" %}
 
+{% block pagecontent %}
 <div id="hypothesis_wrapper">
 	<div id="hypothesis">{{h.proposer_description}}</div>
 	<div id="">
@@ -14,4 +16,4 @@
 	description: {{e.get_top_description}}
 </div>
 {% endfor %}
-
+{% endblock %}
