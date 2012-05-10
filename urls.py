@@ -1,6 +1,7 @@
 from hypotheses.views import detail
 from django.conf.urls.defaults import *
 from django.views.generic import ListView,CreateView
+from django.contrib.auth.decorators import login_required
 from hypotheses.models import Hypothesis
 
 # Uncomment the next two lines to enable the admin:
@@ -15,7 +16,7 @@ urlpatterns = patterns('',
      (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'accounts/login.html'}),
 
      url(r'^hypothesis/(?P<hypothesis_id>\d+)/$','hypotheses.views.detail'),
-     url(r'^hypothesis/add', CreateView.as_view(model=Hypothesis)),
+     url(r'^hypothesis/add', login_required(CreateView.as_view(model=Hypothesis))),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
