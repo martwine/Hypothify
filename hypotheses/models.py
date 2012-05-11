@@ -23,6 +23,8 @@ class Hypothesis(models.Model):
 	def __unicode__(self):
 		return self.proposer_description
 	
+	def get_absolute_url(self):
+		return "/hypothesis/%i" % self.id
 
 	def get_evidences_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.evidenceset.all())

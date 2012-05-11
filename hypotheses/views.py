@@ -14,8 +14,7 @@ class HypothesisCreate(CreateView):
 		self.object = form.save(commit=False)
 		self.object.proposer = self.request.user
 		self.object.save()
-		redirect_url = '/hypothesis/%d' % self.object.id 
-		return HttpResponseRedirect(redirect_url)
+		return HttpResponseRedirect(self.object.get_absolute_url())
 
 
 def detail(request,hypothesis_id,**kwargs):

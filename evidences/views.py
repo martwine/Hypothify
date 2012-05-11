@@ -13,5 +13,5 @@ class EvidenceCreate(CreateView):
         self.object.introducer = self.request.user
         self.object.hypothesis = Hypothesis.objects.get(id=self.kwargs['hypothesis_id'])
         self.object.save()
-        redirect_url = '/hypothesis/%s' % self.kwargs['hypothesis_id']
+        redirect_url = self.object.hypothesis.get_absolute_url()
         return HttpResponseRedirect(redirect_url)
