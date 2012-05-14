@@ -1,17 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+
 <html lang="en">
 	<head>
-		<title>{% block title %}{% endblock %} | Hypothify</title>
-		<link rel="stylesheet" type="text/css" href="{{urlbase}}/media/hypothify.css">
-
+		{% block title %}{% endblock %}
+		{% include 'stylesheets.html' %}
+		{% block extra_stylesheets %}{% endblock %}
+		{% block header_extra %}{% endblock %}
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="description" content="{% block description %}{% endblock %}">
 		<meta name="keywords" content="{% block keywords %}{% endblock %}">
 	</head>
 
 	<body>
-		<div id="hypothify">
-			{% block pagetop %}{% endblock%}
-			{% block pagecontent %} {% endblock %}			
+		<div class="container_16">
+			<a class="grid_12" href="http://www.hypothify.com"><b>hypothify</b></a>
+			<p id="accounts_topline" class="grid_4">logged in as <a href="http://hypothify.com/profiles/1/" class="boldlink">{{user}}</a> / logout</p>
+	<div class="clear"></div>
+			{% block pagecontent %}{% endblock %}
+			{% block comments %}{% endblock %}
+			{% block footer %}{% endblock %}			
 		</div>
 	</body>
 
