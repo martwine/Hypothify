@@ -1,7 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_home.html" %}
 
-{% block pagecontent %}
-    <h2>Hypotheses</h2>
+{% block hypothesis_list %}
     <ul>
         {% for hypothesis in object_list %}
             <li>{{ hypothesis }}</li>

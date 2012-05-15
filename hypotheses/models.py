@@ -5,6 +5,8 @@ from django.contrib.contenttypes.models import ContentType
 from evidences.models import Evidence
 from UTIs.models import Description, Summary
 from voting.models import Vote
+from django.conf import settings
+
 
 
 
@@ -24,7 +26,7 @@ class Hypothesis(models.Model):
 		return self.proposer_description
 	
 	def get_absolute_url(self):
-		return "/hypothesis/%i" % self.id
+		return settings.URLBASE + "/hypothesis/%i" % self.id
 
 	def get_evidences_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.evidenceset.all())

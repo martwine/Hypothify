@@ -1,0 +1,68 @@
+{% extends "base_hypotheses.html" %}
+
+{% block title%}{{block.super}} {{h}}{% endblock %}
+
+
+{% block hypothesis %}
+	<h1 class="grid_2">h:</h1>
+	<h2 class="grid_10">{{h}}</h2>
+	<div id="actionbox", class="grid_4 omega">
+		<a id="bigplus" class="grid_1 alpha" href="{{urlbase}}/hypothesis/{{h.id}}/add_evidence">+</a>
+		<p id="actiontext" class="grid_3 omega"><span>Add evidence <br /> for or against</span></p>
+	</div>
+	<div class="clear"></div>
+{% endblock %}
+
+{% block summary %}
+{% endblock %}
+	
+{% block evidence%}
+	<h3 class="grid_3">evidence</h3>
+	<div class="clear"></div>
+	
+	{% for e in h_eset %}
+		<div class="grid_2 voteblock">
+			<div class="voteup">vote up</div>
+			<p class="votescore">{{e.get_votescore}}</p>
+			<div class="votedown">vote down</div>
+		</div>		
+		<div class="evidenceitem grid_10">
+			{% if e.for_hypothesis %}
+				<div class="evidencebox_for">
+					<p class="forcontent_topline_left grid_5 alpha omega">For: {{e.evidence_type}}, {{e.originator.name}}</p>
+					<p class="forcontent_topline_right grid_5 omega alpha">Added by {{e.introducer}}</p>
+					<p class="forcontent_description">{{e.get_top_description}}</p>
+					<p class="forcontent_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
+				</div>
+			{% else %}
+				<div class="evidencebox_against">
+					<p class="againstcontent_topline_left grid_5 alpha omega">Against: {{e.evidence_type}}, {{e.originator_name}}</p>
+					<p class="againstcontent_topline_right grid_5 omega alpha">Added by {{e.introducer}}</p>
+					<p class="againstcontent_description">
+						{% if e.get_top_description %}
+							{{e.get_top_description}}
+						{% else %}
+							This evidence has not been described. Please <a href="{{e.get_absolute_url}}/add_description">add one</a>
+						{% endif %}
+					</p>
+					<p class="againstcontent_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
+				</div>
+			{% endif %}
+			<p class="leftitemfooter grid_5 alpha"><a href="see others">View details</a> | <a href="flag">Flag</a></p>
+			<p class="rightitemfooter grid_5 omega"><a href="comments">Comments (4)</a></p>
+		</div>	
+		<div class="clear"></div>	
+	{% endfor %}
+{% endblock %}	
+
+
+
+
+	<div class="evidence_item">
+	{{e}}<br />
+	{{e.originator_name}}
+	{{e.introducer}}
+	score: {{e.get_votescore}}
+	<br />
+	description: {{e.get_top_description}}
+	</div>

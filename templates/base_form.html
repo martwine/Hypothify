@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title%}{{block.super}}: {% endblock %}
+
+{% block pagecontent %}
+	
+	<h3 class="grid_16">
+	{% block form_info %}
+	{% endblock %}
+	</h3>
+	<div class="clear"></div>
+	
+	<div class="grid_5">
+	 &nbsp
+	</div>
+	<div id="form" class=grid_10>
+		{% block form %}
+		{% endblock %}
+	</div>
+	
+{% endblock %}

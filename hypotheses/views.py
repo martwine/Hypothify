@@ -31,8 +31,11 @@ def detail(request,hypothesis_id,**kwargs):
 	d1=d[0] if d else None
 	s1=s[0] if s else None
 	
+	
+	
+	
 	return render_to_response(
-		'hypothesis_detail.html',
+		'hypotheses/hypothesis_detail.html',
 			{
 				'h':h,
 				'h_eset':e, 

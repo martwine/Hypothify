@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from django.conf import settings
 from UTIs.models import Description, Summary
 from voting.models import Vote
 
@@ -28,6 +29,9 @@ class Evidence(models.Model):
 
 	def __unicode__(self):
 		return self.url
+	
+	def get_absolute_url(self):
+		return settings.URLBASE  + "/evidence" + self.id
 
 	def get_summaries_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.summaries.all())

@@ -7,6 +7,7 @@ class UserProfile(models.Model):
 	
 	score=models.IntegerField(default=0)
 	url=models.CharField(max_length=200, blank=True)
+	full_name=models.CharField(max_length=100, blank=True)
 
 	def create_user_profile(sender,instance, **kwargs):
 		profile, created = UserProfile.objects.get_or_create(user=instance)
@@ -16,4 +17,5 @@ class UserProfile(models.Model):
 	#monkey patch to get shortcut e.g. user.profile.score
 	User.profile = property(lambda u: u.get_profile() )
 	
-
+	def name(self):
+		return self.full_name if self.full_name else self.user.name
