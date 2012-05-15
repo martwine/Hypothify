@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
-from django.templates import RequestContext	
+from django.template import RequestContext	
 from hypotheses.models import Hypothesis
 from hypotheses.forms import HypothesisForm
 
