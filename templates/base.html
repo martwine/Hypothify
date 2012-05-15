@@ -17,9 +17,9 @@
 			<a class="grid_12" href="http://www.hypothify.com"><b>hypothify</b></a>
 			<p id="accounts_topline" class="grid_4">
 				{% if user.is_anonymous %}
-					<a href="{{urlbase}}/login/">login</a>
+					<a href="{{urlbase}}accounts/login/">login</a>
 				{% else %}
-					logged in as <a href="{{urlbase}}/profiles/1/" class="boldlink">{{user}}</a>
+					logged in as <a href="{{urlbase}}profiles/1/" class="boldlink">{{user}}</a>
 				{% endif %}
 			</p>
 			<div class="clear"></div>

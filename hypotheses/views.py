@@ -1,6 +1,7 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
+from django.templates import RequestContext	
 from hypotheses.models import Hypothesis
 from hypotheses.forms import HypothesisForm
 
@@ -43,7 +44,8 @@ def detail(request,hypothesis_id,**kwargs):
 				'h_sset':s,
 				'h_top_desc':d1,				
 				'h_top_summ':s1
-			}
+			},
+			context_instance=RequestContext(request)
 	)
 
 

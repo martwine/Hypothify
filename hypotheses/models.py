@@ -28,6 +28,9 @@ class Hypothesis(models.Model):
 	def get_absolute_url(self):
 		return settings.URLBASE + "/hypothesis/%i" % self.id
 
+	def get_disqus_id(self):
+		return "hypothesis_" + self.id
+
 	def get_evidences_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.evidenceset.all())
 		return scores
