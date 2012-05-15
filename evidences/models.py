@@ -20,7 +20,6 @@ class Evidence(models.Model):
 	originator_user=models.ForeignKey(User, blank=True, null=True)
 	introducer=models.ForeignKey(User, related_name='evidence_introducerset')
 	for_hypothesis=models.BooleanField(default=True)
-	uri=models.SlugField(max_length=100)
 	evidence_type=models.ForeignKey(EvidenceType, related_name='evidenceset_of_this_type')
 
 	#map back generic relations to Summary and Descriptions
