@@ -1,5 +1,63 @@
 {% extends "base_hypothesis.html" %}
 
+
+{% block header_extra %}
+ <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+ <script type="text/javascript" src="https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"></script>
+ <script>
+ $(function(){
+  // if current viewport height is at least 70% of the previous
+  if ($(document.body).height()>$.cookie('h2')*0.7)
+    // retain previous scroll
+    $('html,body').scrollTop($.cookie('h1'));
+});
+$(window).unload(function(){
+  // store current scroll
+  $.cookie('h1', $(window).scrollTop());
+  // store current viewport height
+  $.cookie('h2', $(document.body).height());
+});
+ 
+ 	$.ajaxSetup({ 
+     beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+             var cookieValue = null;
+             if (document.cookie && document.cookie != '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                     var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                 if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                     break;
+                 }
+             }
+         }
+         return cookieValue;
+         }
+         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+         }
+     } 
+});
+
+ 	function vote(e_id, direction) {
+ 		$.post('/evidence/'+e_id+'/'+direction+'vote/',
+           function(data) {
+               if (data.success == true) {
+                   $('#e_score'+e_id).text(data.score.score);
+                   location.reload();
+               } else {
+                   alert('ERROR: ' + data.error_message);
+               }
+           }, 'json'
+          )
+}
+
+</script>
+{% endblock %}
+
 {% block title%}{{block.super}} {{h}}{% endblock %}
 
 
@@ -18,11 +76,7 @@
 	<h3 class="grid_3">summary</h3>
 	<div class="clear"></div>		
 
-	<div class="grid_2 voteblock">
-			<a href=""><img src="{{urlbase}}static/vote_up.gif"></a>
-			<p class="votescore">{{h_top_summ.get_votescore}}</p>
-			<a href=""><img src="{{urlbase}}static/vote_down.gif"></a>
-	</div>
+	
 	<div id="summarycontent" class="grid_10">
 		<div id="summarybox">
 			<p class="itemcontent_topline">Top summary: by <a href="{{h_top_summ.originator}}">{{h_top_summ.originator}}</a></p>
@@ -38,16 +92,30 @@
 {% endblock %}
 	
 {% block evidence%}
+	{% load voting_tags %}
+	{% votes_by_user user on h_eset as vote_dict %}
+	{% scores_for_objects h_eset as score_dict %}
 	<h3 class="grid_3">evidence</h3>
 	<div class="clear"></div>
 	
 	{% for e in h_eset %}
-		<div class="grid_2 voteblock">
-			<a href=""><img src="{{urlbase}}static/vote_up.gif"></a>
-			<p class="votescore">{{e.get_votescore}}</p>
-			<a href=""><img src="{{urlbase}}static/vote_down.gif"></a>
-		</div>		
+		{% dict_entry_for_item e from vote_dict as vote %}
+      	{% score_for_object e as score %}
+<div class="grid_2 voteblock">
+		
+	  <a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_downvote %}clear{% else %}up{% endif %}');" name="evidence_{{e.id}}">
+	  	<img id="upgif_{{e.id}}" src="{{ urlbase }}static/{% if vote and vote.is_upvote %}novote_up{% else %}vote_up{% endif %}.gif">
+	  </a>
+	  	
+		<p class="votescore" id="e_score{{e.id}}">{{score.score}}</p>
+	  
+	  <a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_upvote %}clear{% else %}down{% endif %}');">
+	  	<img id="downgif_{{e.id}}" src="{{ urlbase }}static/{% if vote and vote.is_downvote %}novote_down{% else %}vote_down{% endif %}.gif">
+	  </a>
+	 
+	</div>
 		<div class="evidenceitem grid_10">
+
 			{% if e.for_hypothesis %}
 				<div class="evidencebox_for">
 					<p class="forcontent_topline_left grid_5 alpha omega">For: {{e.evidence_type}}, {{e.originator_name}}</p>

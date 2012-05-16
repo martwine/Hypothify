@@ -30,7 +30,7 @@ class Evidence(models.Model):
 		return self.url
 	
 	def get_absolute_url(self):
-		return settings.URLBASE  + "/evidence" + self.id
+		return "%sevidence%s" (settings.URLBASE,self.id)
 
 	def get_summaries_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.summaries.all())
