@@ -19,6 +19,10 @@ class UTI(models.Model):
 	def get_votes(self):
 		ctype = ContentType.objects.get_for_model(self)
 		return Vote.objects.get(content_type=ctype, object_id=self.id) 
+	
+	def get_votescore(self):
+		numbers=Vote.objects.get_score(self)
+		return numbers['score']
 		
 	def __unicode__(self):
 		return self.content

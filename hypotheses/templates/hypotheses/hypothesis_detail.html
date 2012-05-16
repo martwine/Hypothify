@@ -7,13 +7,34 @@
 	<h1 class="grid_2">h:</h1>
 	<h2 class="grid_10">{{h}}</h2>
 	<div id="actionbox" class="grid_4 omega">
-		<a id="bigplus" class="grid_1 alpha" href="{{h.get_absolute_url}}add_evidence">+</a>
+		<a id="bigplus" class="grid_1 alpha" href="{{h.get_absolute_url}}add_evidence"><img src="{{urlbase}}static/bigplus.gif"></a>
 		<p id="actiontext" class="grid_3 omega"><span>Add evidence<br /> for or against</span></p>
 	</div>
 	<div class="clear"></div>
 {% endblock %}
 
 {% block summary %}
+	{% if h_top_summ %}
+	<h3 class="grid_3">summary</h3>
+	<div class="clear"></div>		
+
+	<div class="grid_2 voteblock">
+			<a href=""><img src="{{urlbase}}static/vote_up.gif"></a>
+			<p class="votescore">{{h_top_summ.get_votescore}}</p>
+			<a href=""><img src="{{urlbase}}static/vote_down.gif"></a>
+	</div>
+	<div id="summarycontent" class="grid_10">
+		<div id="summarybox">
+			<p class="itemcontent_topline">Top summary: by <a href="{{h_top_summ.originator}}">{{h_top_summ.originator}}</a></p>
+			<p class="itemconten_description">{{h_top_summ}}</p>
+		</div>
+		<p class="leftitemfooter grid_5 alpha"><a href="see others">See others</a> | <a href="newone">Write a new one</a> | <a href="flag">Flag</a></p>
+		<p class="rightitemfooter grid_5 omega"><a href="comments">Comments (3)</a></p>	
+	</div>
+	<div class="clear"></div>
+	{% else %}
+	<p class="grid_12" style="text-align:center">No summary exists for this hypothesis</p>
+	{% endif %}
 {% endblock %}
 	
 {% block evidence%}
@@ -22,9 +43,9 @@
 	
 	{% for e in h_eset %}
 		<div class="grid_2 voteblock">
-			<div class="voteup">vote up</div>
+			<a href=""><img src="{{urlbase}}static/vote_up.gif"></a>
 			<p class="votescore">{{e.get_votescore}}</p>
-			<div class="votedown">vote down</div>
+			<a href=""><img src="{{urlbase}}static/vote_down.gif"></a>
 		</div>		
 		<div class="evidenceitem grid_10">
 			{% if e.for_hypothesis %}
