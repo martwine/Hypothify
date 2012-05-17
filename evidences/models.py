@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
-from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
 from UTIs.models import Description, Summary
 from voting.models import Vote
@@ -45,7 +44,9 @@ class Evidence(models.Model):
 		voted_ids=self.get_top_summary_ids()
 		other_ids=[item.id for item in self.summaries.exclude(id__in=voted_ids)]
 		all_ids=voted_ids+other_ids
-		return [j for i,j in Summary.objects.in_bulk(all_ids).items()]	
+		unordered = Summary.objects.in_bulk(all_ids)	
+		reordered = [unordered.get(id,None) for id in all_ids]
+		return filter(None, reordered)
 	
 	def get_top_summary(self):
 		return self.get_ordered_summary_items()[0]
@@ -63,7 +64,9 @@ class Evidence(models.Model):
 		voted_ids=self.get_top_description_ids()
 		other_ids=[item.id for item in self.descriptions.exclude(id__in=voted_ids)]
 		all_ids=voted_ids+other_ids
-		return [j for i,j in Description.objects.in_bulk(all_ids).items()]
+		unordered = Description.objects.in_bulk(all_ids)	
+		reordered = [unordered.get(id,None) for id in all_ids]
+		return filter(None, reordered)
 
 	def get_top_description(self):
 		q=self.get_ordered_description_items()

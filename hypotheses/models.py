@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes import generic
-from django.contrib.contenttypes.models import ContentType
 from evidences.models import Evidence
 from UTIs.models import Description, Summary
 from voting.models import Vote
@@ -45,7 +44,10 @@ class Hypothesis(models.Model):
 		voted_ids=self.get_top_evidence_ids()
 		other_ids=[item.id for item in self.evidenceset.exclude(id__in=voted_ids)]
 		all_ids=voted_ids+other_ids
-		return [j for i,j in Evidence.objects.in_bulk(all_ids).items()]	
+		#in_bul doesn't preserve order to need to reorder afterwards
+		unordered = Evidence.objects.in_bulk(all_ids)	
+		reordered = [unordered.get(id,None) for id in all_ids]
+		return filter(None, reordered)
 
 	def get_summaries_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.summaries.all())
@@ -60,7 +62,9 @@ class Hypothesis(models.Model):
 		voted_ids=self.get_top_summary_ids()
 		other_ids=[item.id for item in self.summaries.exclude(id__in=voted_ids)]
 		all_ids=voted_ids+other_ids
-		return [j for i,j in Summary.objects.in_bulk(all_ids).items()]	
+		unordered = Summary.objects.in_bulk(all_ids)	
+		reordered = [unordered.get(id,None) for id in all_ids]
+		return filter(None, reordered)	
 		
 	def get_descriptions_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.descriptions.all())
@@ -75,4 +79,6 @@ class Hypothesis(models.Model):
 		voted_ids=self.get_top_description_ids()
 		other_ids=[item.id for item in self.descriptions.exclude(id__in=voted_ids)]
 		all_ids=voted_ids+other_ids
-		return [j for i,j in Description.objects.in_bulk(all_ids).items()]
+		unordered = Description.objects.in_bulk(all_ids)	
+		reordered = [unordered.get(id,None) for id in all_ids]
+		return filter(None, reordered)
