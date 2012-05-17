@@ -76,18 +76,20 @@ $(window).unload(function(){
 	<h3 class="grid_3">summary</h3>
 	<div class="clear"></div>		
 
+	<div class="grid_2">&nbsp</div>
 	
 	<div id="summarycontent" class="grid_10">
 		<div id="summarybox">
-			<p class="itemcontent_topline">Top summary: by <a href="{{h_top_summ.originator}}">{{h_top_summ.originator}}</a></p>
+			<p class="itemcontent_topline grid_5 alpha omega">Top summary:</p> 
+			<p class="itemcontent_topline right grid_5 alpha omega">by <a href="{{h_top_summ.originator.get_absolute_url}}">{{h_top_summ.originator}}</a></p>
 			<p class="itemconten_description">{{h_top_summ}}</p>
 		</div>
-		<p class="leftitemfooter grid_5 alpha"><a href="see others">See others</a> | <a href="newone">Write a new one</a> | <a href="flag">Flag</a></p>
-		<p class="rightitemfooter grid_5 omega"><a href="comments">Comments (3)</a></p>	
+		<p class="leftitemfooter grid_5 alpha"><a href="{{h.get_absolute_url}}summaries">See others</a> | <a href="{{h.get_absolute_url}}add_summary">Write a new one</a> | <a href="{{h_top_summ.get_absolute_url}}flag">Flag</a></p>
+		<p class="rightitemfooter grid_5 omega"><a href="{{h_top_summ.get_absolute_url}}/">Comments (3)</a></p>	
 	</div>
 	<div class="clear"></div>
 	{% else %}
-	<p class="grid_12" style="text-align:center">No summary exists for this hypothesis</p>
+	<p class="grid_12" style="text-align:center">No summary exists for this hypothesis. Why not <a href="{{h.get_absolute_url}}add_summary"></p>
 	{% endif %}
 {% endblock %}
 	
@@ -131,14 +133,14 @@ $(window).unload(function(){
 						{% if e.get_top_description %}
 							{{e.get_top_description}}
 						{% else %}
-							This evidence has not been described. Please <a href="{{e.get_absolute_url}}/add_description">add one</a>
+							This evidence has not been described. Please <a href="{{e.get_absolute_url}}add_description">add one</a>
 						{% endif %}
 					</p>
 					<p class="againstcontent_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
 				</div>
 			{% endif %}
-			<p class="leftitemfooter grid_5 alpha"><a href="see others">View details</a> | <a href="flag">Flag</a></p>
-			<p class="rightitemfooter grid_5 omega"><a href="comments">Comments (4)</a></p>
+			<p class="leftitemfooter grid_5 alpha"><a href="{{e.get_absolute_url}}">View details</a> | <a href="{{e.get_absolute_url}}flag">Flag</a></p>
+			<p class="rightitemfooter grid_5 omega"><a href="{{e.get_absolute_url}}">Comments (4)</a></p>
 		</div>	
 		<div class="clear"></div>	
 	{% endfor %}
