@@ -105,15 +105,15 @@ $(window).unload(function(){
       	{% score_for_object e as score %}
 <div class="grid_2 voteblock">
 		
-	  <a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_downvote %}clear{% else %}up{% endif %}');" name="evidence_{{e.id}}">
+	  <!--<a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_downvote %}clear{% else %}up{% endif %}');" name="evidence_{{e.id}}">
 	  	<img id="upgif_{{e.id}}" src="{{ urlbase }}static/{% if vote and vote.is_upvote %}novote_up{% else %}vote_up{% endif %}.gif">
-	  </a>
+	  </a>-->
 	  	
 		<p class="votescore" id="e_score{{e.id}}">{{score.score}}</p>
 	  
-	  <a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_upvote %}clear{% else %}down{% endif %}');">
+	  <!--<a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_upvote %}clear{% else %}down{% endif %}');">
 	  	<img id="downgif_{{e.id}}" src="{{ urlbase }}static/{% if vote and vote.is_downvote %}novote_down{% else %}vote_down{% endif %}.gif">
-	  </a>
+	  </a>-->
 	 
 	</div>
 		<div class="evidenceitem grid_10">
