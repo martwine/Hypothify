@@ -1,0 +1,109 @@
+{% extends "base_hypothesis.html" %}
+
+
+ {% block header_extra %}
+ <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+ <script type="text/javascript" src="https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"></script>
+ <script>
+ $(function(){
+  // if current viewport height is at least 70% of the previous
+  if ($(document.body).height()>$.cookie('h2')*0.7)
+    // retain previous scroll
+    $('html,body').scrollTop($.cookie('h1'));
+});
+$(window).unload(function(){
+  // store current scroll
+  $.cookie('h1', $(window).scrollTop());
+  // store current viewport height
+  $.cookie('h2', $(document.body).height());
+});
+ 
+ 	$.ajaxSetup({ 
+     beforeSend: function(xhr, settings) {
+         function getCookie(name) {
+             var cookieValue = null;
+             if (document.cookie && document.cookie != '') {
+                 var cookies = document.cookie.split(';');
+                 for (var i = 0; i < cookies.length; i++) {
+                     var cookie = jQuery.trim(cookies[i]);
+                     // Does this cookie string begin with the name we want?
+                 if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                     break;
+                 }
+             }
+         }
+         return cookieValue;
+         }
+         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+             // Only send the token to relative URLs i.e. locally.
+             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+         }
+     } 
+});
+
+ 	function vote(s_id, direction) {
+ 		$.post('/summary/'+s_id+'/'+direction+'vote/',
+           function(data) {
+               if (data.success == true) {
+                   $('#s_score'+s_id).text(data.score.score);
+                   location.reload();
+               } else {
+                   alert('ERROR: ' + data.error_message);
+               }
+           }, 'json'
+          )
+}
+</script>
+{% endblock %}
+
+{% block title%}{{block.super}} {{h}} summaries{% endblock %}
+
+{% block hypothesis %}
+	<h1 class="grid_2">h:</h1>
+	<h2 class="grid_10">{{h}}</h2>
+	<div id="actionbox" class="grid_4 omega">
+		<a id="bigplus" class="grid_1 alpha" href="{{h.get_absolute_url}}add_summary"><img src="{{urlbase}}static/bigplus.gif"></a>
+		<p id="actiontext" class="grid_3 omega"><span>Add a summary<br /> to explain this hypothesis</span></p>
+	</div>
+	<div class="clear"></div>
+{% endblock %}
+
+{% block summary %}
+	{% load voting_tags %}
+	{% votes_by_user user on summary_list as vote_dict %}
+	{% scores_for_objects summary_list as score_dict %}
+	<h3 class="grid_3">summaries:</h3>
+	<div class="clear"></div>
+	
+	{% for s in summary_list %}	
+	{% dict_entry_for_item s from vote_dict as vote %}
+    {% score_for_object s as score %}	
+
+	<div class="grid_2 voteblock">
+		
+	  <a href="" onclick="vote('{{s.id}}','{% if vote and vote.is_downvote %}clear{% else %}up{% endif %}');" name="summary_{{s.id}}">
+	  	<img id="upgif_{{s.id}}" src="{{ urlbase }}static/{% if vote and vote.is_upvote %}novote_up{% else %}vote_up{% endif %}.gif">
+	  </a>
+	  	
+		<p class="votescore" id="s_score{{s.id}}">{{score.score}}</p>
+	  
+	  <a href="" onclick="vote('{{s.id}}','{% if vote and vote.is_upvote %}clear{% else %}down{% endif %}');">
+	  	<img id="downgif_{{s.id}}" src="{{ urlbase }}static/{% if vote and vote.is_downvote %}novote_down{% else %}vote_down{% endif %}.gif">
+	  </a>
+	 
+	</div>
+	
+	<div id="summarycontent" class="grid_10">
+		<div id="summarybox">
+			<p class="itemcontent_topline grid_5 alpha omega">&nbsp</p> 
+			<p class="itemcontent_topline right grid_5 alpha omega">by <a href="{{s.originator.get_absolute_url}}">{{s.originator}}</a></p>
+			<p class="itemconten_description">{{s}}</p>
+		</div>	
+	</div>
+	<div class="clear"></div>
+
+	{% endfor %}
+	
+{% endblock %}
+
