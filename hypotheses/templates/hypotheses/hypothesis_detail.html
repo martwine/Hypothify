@@ -1,46 +1,10 @@
 {% extends "base_hypothesis.html" %}
 
-
 {% block header_extra %}
  <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
  <script type="text/javascript" src="https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"></script>
  <script>
- $(function(){
-  // if current viewport height is at least 70% of the previous
-  if ($(document.body).height()>$.cookie('h2')*0.7)
-    // retain previous scroll
-    $('html,body').scrollTop($.cookie('h1'));
-});
-$(window).unload(function(){
-  // store current scroll
-  $.cookie('h1', $(window).scrollTop());
-  // store current viewport height
-  $.cookie('h2', $(document.body).height());
-});
- 
- 	$.ajaxSetup({ 
-     beforeSend: function(xhr, settings) {
-         function getCookie(name) {
-             var cookieValue = null;
-             if (document.cookie && document.cookie != '') {
-                 var cookies = document.cookie.split(';');
-                 for (var i = 0; i < cookies.length; i++) {
-                     var cookie = jQuery.trim(cookies[i]);
-                     // Does this cookie string begin with the name we want?
-                 if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                     cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                     break;
-                 }
-             }
-         }
-         return cookieValue;
-         }
-         if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
-             // Only send the token to relative URLs i.e. locally.
-             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-         }
-     } 
-});
+ 	{% include "ajax_voting.js" %}
 
  	function vote(e_id, direction) {
  		$.post('/evidence/'+e_id+'/'+direction+'vote/',
@@ -53,7 +17,7 @@ $(window).unload(function(){
                }
            }, 'json'
           )
-}
+	}
 
 </script>
 {% endblock %}
@@ -62,34 +26,24 @@ $(window).unload(function(){
 
 
 {% block hypothesis %}
-	<h1 class="grid_2">h:</h1>
-	<h2 class="grid_10">{{h}}</h2>
-	<div id="actionbox" class="grid_4 omega">
-		<a id="bigplus" class="grid_1 alpha" href="{{h.get_absolute_url}}add_evidence"><img src="{{urlbase}}static/bigplus.gif"></a>
-		<p id="actiontext" class="grid_3 omega"><span>Add evidence<br /> for or against</span></p>
-	</div>
+	<h2 class=grid_16>{{h}}</h2>
 	<div class="clear"></div>
+
+	{% include "addthis_small.html" %}
 {% endblock %}
 
 {% block summary %}
 	{% if h_top_summ %}
-	<h3 class="grid_3">summary</h3>
-	<div class="clear"></div>		
-
-	<div class="grid_2">&nbsp</div>
-	
-	<div id="summarycontent" class="grid_10">
-		<div id="summarybox">
-			<p class="itemcontent_topline grid_5 alpha omega">Top summary:</p> 
-			<p class="itemcontent_topline right grid_5 alpha omega">by <a href="{{h_top_summ.originator.get_absolute_url}}">{{h_top_summ.originator}}</a></p>
-			<p class="itemconten_description">{{h_top_summ}}</p>
-		</div>
-		<p class="leftitemfooter grid_5 alpha"><a href="{{h.get_absolute_url}}summaries">See others</a> | <a href="{{h.get_absolute_url}}add_summary">Write a new one</a> | <a href="{{h_top_summ.get_absolute_url}}flag">Flag</a></p>
-		<p class="rightitemfooter grid_5 omega"><a href="{{h_top_summ.get_absolute_url}}/">Comments (3)</a></p>	
+		<div id="summarycontent" class="grid_11">
+			<p class="itemcontent_topline grid_5 alpha">Top summary | by <a href="{{h_top_summ.originator.get_absolute_url}}">{{h_top_summ.originator}}</a></p> 
+			<p class="itemcontent_topline right grid_6 omega"><a href="{{h.get_absolute_url}}summaries">See others</a> | <a href="{{h.get_absolute_url}}add_summary">Write a new one</a> | <a href="{{h_top_summ.get_absolute_url}}flag">Flag</a></p>
+			
+			<p class="itemcontent">{{h_top_summ}}</p>
 	</div>
+
 	<div class="clear"></div>
 	{% else %}
-	<p class="grid_12" style="text-align:center">No summary exists for this hypothesis. Why not <a href="{{h.get_absolute_url}}add_summary"></p>
+	<p class="grid_12" style="text-align:center">No summary exists for this hypothesis. Why not <a href="{{h.get_absolute_url}}add_summary"> add one</a>?</p>
 	{% endif %}
 {% endblock %}
 	
@@ -97,43 +51,43 @@ $(window).unload(function(){
 	{% load voting_tags %}
 	{% votes_by_user user on h_eset as vote_dict %}
 	{% scores_for_objects h_eset as score_dict %}
-	<h3 class="grid_3">evidence</h3>
+	<h3 class="grid_3" id="evidence">evidence</h3>
 	<div class="clear"></div>
 	
 	{% for e in h_eset %}
 		{% dict_entry_for_item e from vote_dict as vote %}
       	{% score_for_object e as score %}
-<div class="grid_2 voteblock">
+		<div class="grid_1 scoreblock omega">
 		
-	  <!--<a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_downvote %}clear{% else %}up{% endif %}');" name="evidence_{{e.id}}">
+	  	<!--<a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_downvote %}clear{% else %}up{% endif %}');" name="evidence_{{e.id}}">
 	  	<img id="upgif_{{e.id}}" src="{{ urlbase }}static/{% if vote and vote.is_upvote %}novote_up{% else %}vote_up{% endif %}.gif">
-	  </a>-->
+	  	</a>-->
 	  	
-		<p class="votescore" id="e_score{{e.id}}">{{score.score}}</p>
+		<p class="votescore right" id="e_score{{e.id}}">{{score.score}}</p>
 	  
 	  <!--<a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_upvote %}clear{% else %}down{% endif %}');">
 	  	<img id="downgif_{{e.id}}" src="{{ urlbase }}static/{% if vote and vote.is_downvote %}novote_down{% else %}vote_down{% endif %}.gif">
 	  </a>-->
 	 
 	</div>
-		<div class="evidenceitem grid_10">
+		<div class="evidenceitem grid_10 omega">
 
 			{% if e.for_hypothesis %}
 				<div class="evidencebox_for">
-					<p class="forcontent_topline_left grid_5 alpha omega">For: {{e.evidence_type}}, {{e.originator_name}}</p>
-					<p class="forcontent_topline_right grid_5 omega alpha">Added by {{e.introducer}}</p>
+					<p class="forcontent_topline grid_5 alpha omega">For: {{e.evidence_type}}, {{e.originator_name}}</p>
+					<p class="forcontent_topline right grid_5 omega alpha">Added by {{e.introducer}}</p>
 					<p class="forcontent_description">{{e.get_top_description}}</p>
 					<p class="forcontent_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
 				</div>
 			{% else %}
 				<div class="evidencebox_against">
-					<p class="againstcontent_topline_left grid_5 alpha omega">Against: {{e.evidence_type}}, {{e.originator_name}}</p>
-					<p class="againstcontent_topline_right grid_5 omega alpha">Added by {{e.introducer}}</p>
+					<p class="againstcontent_topline grid_5 alpha omega">Against: {{e.evidence_type}}, {{e.originator_name}}</p>
+					<p class="againstcontent_topline right grid_5 omega alpha">Added by {{e.introducer}}</p>
 					<p class="againstcontent_description">
 						{% if e.get_top_description %}
 							{{e.get_top_description}}
 						{% else %}
-							This evidence has not been described. Please <a href="{{e.get_absolute_url}}add_description">add one</a>
+							This evidence has not been described. Please <a href="{{e.get_absolute_url}}add_description">add a description</a>
 						{% endif %}
 					</p>
 					<p class="againstcontent_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
@@ -143,11 +97,22 @@ $(window).unload(function(){
 			<p class="rightitemfooter grid_5 omega"><a href="{{e.get_absolute_url}}">Comments (4)</a></p>
 		</div>	
 		<div class="clear"></div>	
+	{% empty %}
+	<div class="grid_11" prefix_1>This hypothesis has no evidence for or against it at the moment. Why not <a href="{{h.get_absolute_url}}add_evidence">add some</a>?</div>
 	{% endfor %}
+
 {% endblock %}	
 
+{% block share %}
+	<div class="grid_11">
+	<h3 id="sharetitle">Share / bookmark this hypothesis</h4>
+	{% include "addthis_large.html"%}
+	</div>
+	<div class="clear"></div>	
+{% endblock %}
+
 {% block comments %}
-	<div id="disqus_thread" class="grid_12" style="padding-top:20px">
+	<div id="disqus_thread" class="grid_11" style="padding-top:20px">
 		<script type="text/javascript">
     		/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
     		var disqus_developer = 1; // developer mode is on
@@ -169,3 +134,7 @@ $(window).unload(function(){
 		<div class="clear"></div>
 {% endblock %}
 
+{% block footer%}
+{{block.super}}
+{% include "disquscommentcounter.html"%}
+{% endblock%}

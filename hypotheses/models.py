@@ -10,12 +10,12 @@ from django.conf import settings
 
 
 class Hypothesis(models.Model):
-	proposer=models.ForeignKey(User,related_name='hypothesis_proposerset')
-	proposer_description=models.CharField(max_length=200)
-	originator_name=models.CharField(max_length=100)
-	originator_unique=models.CharField(max_length=100, blank=True)
-	originator_user=models.ForeignKey(User, blank=True, null=True, related_name='hypothesis_originatorset')
-	status=models.CharField(max_length=50, blank=True, null=True)
+	proposer=models.ForeignKey(User,related_name='hypothesis_proposerset',editable=False)
+	proposer_description=models.CharField(max_length=200, help_text="describe the hypothesis in 200 characters or less", verbose_name="Hypothesis")
+	originator_name=models.CharField(max_length=100, help_text="Name of person who originally proposed hypothesis. If it is your hypothesis, type \'me\'")
+	originator_unique=models.CharField(max_length=100, blank=True, editable=False)
+	originator_user=models.ForeignKey(User, blank=True, null=True, related_name='hypothesis_originatorset', editable=False)
+	status=models.CharField(max_length=50, blank=True, null=True, editable=False)
 		
 	#map back generic relations to Summaries and Descriptions
 	summaries = generic.GenericRelation(Summary, content_type_field='summ_type',object_id_field='object_id')

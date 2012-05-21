@@ -3,7 +3,8 @@ from django.http import HttpResponseRedirect
 from django.views.generic import CreateView
 from django.template import RequestContext	
 from hypotheses.models import Hypothesis
-from hypotheses.forms import HypothesisForm
+from hypotheses.forms import HypothesisForm, HypothesisSummaryFormSet
+from UTIs.models import Summary
 
 
 # use special form for Hypothesis create generic view to omit fields and redirect to created object
@@ -12,11 +13,33 @@ class HypothesisCreate(CreateView):
 	
 	
 	def form_valid(self,form):
-		self.object = form.save(commit=False)
-		self.object.proposer = self.request.user
-		self.object.save()
-		return HttpResponseRedirect(self.object.get_absolute_url())
+		context=self.get_context_data()
+		hypothesissummary_form=context['hypothesissummary_formset']
+		if hypothesissummary_form.is_valid():
+			
+			self.object = form.save(commit=False)
+			self.object.proposer = self.request.user
+			self.object.save()
+			h=Hypothesis.objects.get(id=self.object.id)
+			hypothesissummary_form.instance=h
+			instances = hypothesissummary_form.save(commit=False)
+			for instance in instances:
+				s = Summary(content=instance.content, originator=self.request.user, summ_object=h)
+				s.save()
+			return HttpResponseRedirect(self.object.get_absolute_url())
+		else:
+			return self.render_to_response(self.get_context_data(form=form))
+	
+	def form_invalid(self, form):
+		return self.render_to_response(self.get_context_data(form=form))
 
+	def get_context_data(self, **kwargs):
+		context = super(HypothesisCreate, self).get_context_data(**kwargs)
+		if self.request.POST:
+			context['hypothesissummary_formset']=HypothesisSummaryFormSet(self.request.POST, instance=self.object)
+		else:
+			context['hypothesissummary_formset']=HypothesisSummaryFormSet(instance=self.object)
+		return(context)
 
 def detail(request,hypothesis_id,**kwargs):
 

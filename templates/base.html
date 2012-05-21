@@ -10,25 +10,32 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<meta name="description" content="{% block description %}{% endblock %}">
 		<meta name="keywords" content="{% block keywords %}{% endblock %}">
+
+		<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=xa-4fb8f977245af1d2"></script>
+		<script type="text/javascript">var addthis_config = {ui_header_background:"#333",ui_cobrand:"hypothify",data_track_clickback:true};</script>
 	</head>
 
 	<body>
-		<div class="container_16">
-			<a class="grid_12" href="http://www.hypothify.com"><b>hypothify</b></a>
-			<p id="accounts_topline" class="grid_4">
-				{% if user.is_anonymous %}
-					<a href="{{urlbase}}accounts/login/">login</a>
-				{% else %}
-					logged in as <a href="{{urlbase}}profiles/1/" class="boldlink">{{user}}</a>
-				{% endif %}
-			</p>
+		
+			<div id="topbar">
+				<div class="container_16">
+					<a class="grid_12 omega" href="http://www.hypothify.com"><b>hypothify</b></a>
+					<p id="accounts_topline" class="grid_4 alpha right">
+						{% if user.is_anonymous %}
+							<a href="{{urlbase}}accounts/login/">login</a>
+						{% else %}
+							logged in as <a href="{{urlbase}}profiles/1/" class="boldlink">{{user}}</a>
+						{% endif %}
+					</p>
+				</div>
+			</div>
+			<div class="container_16" id="pagebody">
 			<div class="clear"></div>
 			
 			{% block pagecontent %}
 			{% endblock %}
 		
-			{% block comments %}
-			{% endblock %}
+
 			
 			
 			{% block footer %}

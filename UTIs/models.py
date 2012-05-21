@@ -7,8 +7,8 @@ from voting.models import Vote
 
 
 class UTI(models.Model):
-	originator=models.ForeignKey(User)
-	created_date=models.DateTimeField(auto_now_add=True)
+	originator=models.ForeignKey(User, editable=False)
+	created_date=models.DateTimeField(auto_now_add=True, editable=False)
 	
 	class Meta:
 		abstract = True
@@ -48,7 +48,7 @@ class Summary(UTI):
 
 
 class Commentary(UTI):
-	content=models.TextField("commentary on hypothesis",max_length=200)
+	content=models.TextField("commentary on hypothesis")
 	hypothesis=models.ForeignKey('hypotheses.Hypothesis') 
 	class Meta(UTI.Meta):
 		db_table='hypothesis_commentary'

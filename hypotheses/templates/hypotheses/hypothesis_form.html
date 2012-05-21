@@ -1,9 +1,28 @@
-{% extends "base.html" %}
+{% extends "base_form.html" %}
 
-{% block pagecontent %}
+{% block title%}{{block.super}}add new hypothesis{% endblock %}
+
+{% block form_info %} Add new hypothesis:{% endblock %}
+
+{% block form %}
+
 <form method="post">{% csrf_token %}
 {{ form.as_p }}
+{{hypothesissummary_formset.management_form}}
+{% for form in hypothesissummary_formset %}
+	{{form.id}}
+	{{form.content.label_tag}}
+	{{form.content}}
+	{{form.content.errors}}
+{% endfor %}
 <input type="submit" value="Submit" />
 </form>
 
 {% endblock %}
+
+
+
+
+
+
+

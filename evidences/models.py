@@ -12,14 +12,15 @@ class EvidenceType(models.Model):
 		return self.name
 
 class Evidence(models.Model):
-	url=models.URLField()
-	hypothesis=models.ForeignKey('hypotheses.Hypothesis', related_name='evidenceset')
-	originator_name=models.CharField(max_length=100)
-	originator_unique=models.CharField(max_length=100, blank=True)
-	originator_user=models.ForeignKey(User, blank=True, null=True)
-	introducer=models.ForeignKey(User, related_name='evidence_introducerset')
-	for_hypothesis=models.BooleanField(default=True)
-	evidence_type=models.ForeignKey(EvidenceType, related_name='evidenceset_of_this_type')
+	url=models.URLField(help_text="http address of evidence item e.g. http://nature.com/articles/291_223/")
+	hypothesis=models.ForeignKey('hypotheses.Hypothesis', related_name='evidenceset', editable=False)
+	originator_name=models.CharField(max_length=100,verbose_name="originator citation",help_text="The name of the author of the evidence or better still a dated citation for the evidence e.g. \'Gable et al 2003\' or \'Clark Gable\'")
+	originator_unique=models.CharField(max_length=100, blank=True, editable=False)
+	originator_user=models.ForeignKey(User, blank=True, null=True, editable=False)
+	introducer=models.ForeignKey(User, related_name='evidence_introducerset', editable=False)
+	for_hypothesis=models.BooleanField(default=True,verbose_name="Is this evidence in support of the hypothesis?",help_text="de-select if evidence is against the hypothesis")
+	doi=models.CharField(max_length=100,blank=True,help_text="add doi without prefixes i.e. 10.1029/30212JJ3 not doi:10.1029/30212JJ3")
+	evidence_type=models.ForeignKey(EvidenceType, related_name='evidenceset_of_this_type',verbose_name="Evidence type",help_text="If you can't find the right type, select \'other\' and let us know")
 
 	#map back generic relations to Summary and Descriptions
 	summaries = generic.GenericRelation(Summary, content_type_field='summ_type',object_id_field='object_id')
@@ -29,7 +30,7 @@ class Evidence(models.Model):
 		return self.url
 	
 	def get_absolute_url(self):
-		return "%sevidence%s" (settings.URLBASE,self.id)
+		return "%sevidence/%s/" %(settings.URLBASE,self.id)
 
 	def get_summaries_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.summaries.all())
