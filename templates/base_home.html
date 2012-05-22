@@ -2,11 +2,9 @@
 {% block title%}{{block.super}}: home{% endblock %}
 
 {% block pagecontent %}
-	<h1 class="grid_2">h:</h1>
-	<h2 class="grid_10">hypotheses</h2>
+	<h2 class="grid_11 prefix_1">hypotheses</h2>
 	<div id="actionbox" class="grid_4 omega">
-		<p id="bigplus" class="grid_1 alpha">+</p>
-		<p id="actiontext" class="grid_3 omega"><span>Add hypothesis <br /> for or against</span></p>
+		<p id="actiontext"><a href="{{urlbase}}hypothesis/add/">Add a hypothesis </a></p>
 	</div>
 	<div class="clear"></div>
 	{% block hypothesis_list%}

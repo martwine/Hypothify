@@ -6,9 +6,9 @@
 <div class="grid_10" id="list">   
     <ul>
         {% for h in object_list %}
-        <li><h2><a href="{{h.get_absolute_url}}">{{h}}</a></li>
+        <li><h3><a href="{{h.get_absolute_url}}">{{h}}</a></h3></li>
 	    <li>proposed by {{h.proposer}}</li>
-	    <li>comments(<a href="{{h.get_absolute_url}}#disqus_thread" data-disqus-identifier="{{h.get_disqus_id}}">sdsdsdsd</a>)
+	    <li>(<a href="{{h.get_absolute_url}}#disqus_thread" data-disqus-identifier="{{h.get_disqus_id}}">sdsdsdsd</a>)
         {% endfor %}
     </ul>
 </div>
