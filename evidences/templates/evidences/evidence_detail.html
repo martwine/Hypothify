@@ -1,52 +1,67 @@
 {% extends "base_evidence.html" %}
 
+{% block header_extra %}
+ <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+ <script type="text/javascript" src="https://raw.github.com/carhartl/jquery-cookie/master/jquery.cookie.js"></script>
+ <script>
+ 	{% include "ajax_voting.js" %}
+
+ 	function vote(e_id, direction) {
+ 		$.post('/evidence/'+e_id+'/'+direction+'vote/',
+           function(data) {
+               if (data.success == true) {
+                   $('#e_score'+e_id).text(data.score.score);
+                   location.reload();
+               } else {
+                   alert('ERROR: ' + data.error_message);
+               }
+           }, 'json'
+          )
+	}
+
+</script>
+{% endblock %}
 {% block hypothesis %}
-	<h1 class="grid_2">h:</h1>
-	<h2 class="grid_7">&nbsp</h2>
-	<div id="actionbox" class="grid_4 omega">
-		<a id="bigplus" class="grid_1 alpha" href="{{h.get_absolute_url}}add_evidence"><img src="{{urlbase}}static/bigplus.gif"></a>
-		<p id="actiontext" class="grid_3 omega"><span>Add evidence<br /> for or against</span></p>
-	</div>
+	<h2 class=grid_16>{{h}}</h2>
 	<div class="clear"></div>
-	<div class="grid_2">&nbsp</div>
-	<h2 class="grid_10">{{h}}</h2>
-	<div class="clear"></div>
-{%endblock%}
+
+	{% include "addthis_small.html" %}
+{% endblock %}
 
 {% block evidence %}
 	
 	{% load voting_tags %}
 
-	<h3 class="grid_3">evidence</h3>
+	<h3 class="grid_11">evidence: {{e}}</h3>
 	<div class="clear"></div>
 	{% vote_by_user user on e as vote %}
     {% score_for_object e as score %}
 <div class="grid_2 voteblock">
 		
 	  <a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_downvote %}clear{% else %}up{% endif %}');" name="evidence_{{e.id}}">
-	  	<img id="upgif_{{e.id}}" src="{{ urlbase }}static/{% if vote and vote.is_upvote %}novote_up{% else %}vote_up{% endif %}.gif">
+	  	<img width="58px" id="upgif_{{e.id}}" src="{{ urlbase }}static/{% if vote and vote.is_upvote %}novote_up{% else %}vote_up{% endif %}.gif">
 	  </a>
 	  	
 		<p class="votescore" id="e_score{{e.id}}">{{score.score}}</p>
 	  
 	  <a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_upvote %}clear{% else %}down{% endif %}');">
-	  	<img id="downgif_{{e.id}}" src="{{ urlbase }}static/{% if vote and vote.is_downvote %}novote_down{% else %}vote_down{% endif %}.gif">
+	  	<img width="58px" id="downgif_{{e.id}}" src="{{ urlbase }}static/{% if vote and vote.is_downvote %}novote_down{% else %}vote_down{% endif %}.gif">
 	  </a>
 	 
 	</div>
-		<div class="evidenceitem grid_10">
+		<div class="evidenceitem grid_9">
 
 			{% if e.for_hypothesis %}
 				<div class="evidencebox_for">
 					<p class="forcontent_topline_left grid_5 alpha omega">For: {{e.evidence_type}}, {{e.originator_name}}</p>
-					<p class="forcontent_topline_right grid_5 omega alpha">Added by {{e.introducer}}</p>
+					<p class="forcontent_topline_right grid_4 omega alpha">Added by {{e.introducer}}</p>
 					<p class="forcontent_description">{{e.get_top_description}}</p>
 					<p class="forcontent_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
 				</div>
 			{% else %}
 				<div class="evidencebox_against">
 					<p class="againstcontent_topline_left grid_5 alpha omega">Against: {{e.evidence_type}}, {{e.originator_name}}</p>
-					<p class="againstcontent_topline_right grid_5 omega alpha">Added by {{e.introducer}}</p>
+					<p class="againstcontent_topline_right grid_4 omega alpha">Added by {{e.introducer}}</p>
 					<p class="againstcontent_description">
 						{% if e.get_top_description %}
 							{{e.get_top_description}}
@@ -58,12 +73,12 @@
 				</div>
 			{% endif %}
 			<p class="leftitemfooter grid_5 alpha"><a href="{{e.get_absolute_url}}flag">Flag</a></p>
-			<p class="rightitemfooter grid_5 omega"><a href="{{e.get_absolute_url}}">&nbsp</a></p>
+			<p class="rightitemfooter grid_4 omega"><a href="{{e.get_absolute_url}}">&nbsp</a></p>
 			
 		</div>	
 		<div class="clear"></div>	
 	<!-- AddThis Button BEGIN -->
-<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+<div class="addthis_toolbox addthis_default_style addthis_32x32_style grid_9 prefix_2">
 <a class="addthis_button_preferred_1"></a>
 <a class="addthis_button_preferred_2"></a>
 <a class="addthis_button_preferred_3"></a>

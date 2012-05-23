@@ -60,12 +60,28 @@ $(window).unload(function(){
 {% block title%}{{block.super}}: {% endblock %}
 
 {% block pagecontent %}
+	
 	{% block hypothesis %}
 	{% endblock %}
+	
+	<div class="grid_11" id="leftcolumn">
+		{% block evidence%}
+		{% endblock %}
 
+		{% block share%}
+		{% endblock%}
+		
+		{% block comments %}
+		{% endblock %}
 
-	{% block evidence%}
-	{% endblock %}
+	</div>
+	
+	<div class="grid_5" id="rightcolumn">
+		{% block rightcolumn%}
+
+		{% endblock%}	
+	</div>
+
 	
 	
 {% endblock %}
