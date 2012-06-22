@@ -26,7 +26,7 @@
 
 
 {% block hypothesis %}
-	<h2 class=grid_16>{{h}}</h2>
+	<h1 class=grid_16>{{h}}</h1>
 	<div class="clear"></div>
 
 	{% include "addthis_small.html" %}
@@ -71,30 +71,20 @@
 	 
 	</div>
 		<div class="evidenceitem grid_10 omega">
-
-			{% if e.for_hypothesis %}
-				<div class="evidencebox_for">
-					<p class="forcontent_topline grid_5 alpha omega">For: {{e.evidence_type}}, {{e.originator_name}}</p>
-					<p class="forcontent_topline right grid_5 omega alpha">Added by {{e.introducer}}</p>
-					<p class="forcontent_description">{{e.get_top_description}}</p>
-					<p class="forcontent_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
-				</div>
-			{% else %}
-				<div class="evidencebox_against">
-					<p class="againstcontent_topline grid_5 alpha omega">Against: {{e.evidence_type}}, {{e.originator_name}}</p>
-					<p class="againstcontent_topline right grid_5 omega alpha">Added by {{e.introducer}}</p>
-					<p class="againstcontent_description">
-						{% if e.get_top_description %}
-							{{e.get_top_description}}
-						{% else %}
-							This evidence has not been described. Please <a href="{{e.get_absolute_url}}add_description">add a description</a>
-						{% endif %}
-					</p>
-					<p class="againstcontent_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
-				</div>
-			{% endif %}
+			<div class="evidencebox_{{e.lcfor}}">
+				<p class="{{e.lcfor}}content_topline grid_5 alpha omega">{{e.For}}: {{e.evidence_type}}, {{e.originator_name}}</p>
+				<p class="{{e.lcfor}}content_topline right grid_5 omega alpha">Added by {{e.introducer}}</p>
+				<p class="{{e.lcfor}}content_description">
+					{% if e.get_top_description %}
+						{{e.get_top_description}}
+					{% else %}
+						This evidence has not been described. Please <a href="{{e.get_absolute_url}}add_description">add a description</a>
+					{% endif %}
+				</p>
+				<p class="{{e.lcfor}}content_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
+			</div>
 			<p class="leftitemfooter grid_5 alpha"><a href="{{e.get_absolute_url}}">View details</a> | <a href="{{e.get_absolute_url}}flag">Flag</a></p>
-			<p class="rightitemfooter grid_5 omega"><a href="{{e.get_absolute_url}}">Comments (4)</a></p>
+			<p class="rightitemfooter grid_5 omega">(<a href="{{e.get_absolute_url}}#disqus_thread" data-disqus-identifier="{{e.get_disqus_id}}"></a>)</p>
 		</div>	
 		<div class="clear"></div>	
 	{% empty %}

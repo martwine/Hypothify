@@ -32,6 +32,18 @@ class Evidence(models.Model):
 	def get_absolute_url(self):
 		return "%sevidence/%s/" %(settings.URLBASE,self.id)
 
+	def For(self):
+		if self.for_hypothesis:
+			return "For"
+		else:
+			return "Against"
+	
+	def lcfor(self):
+		if self.for_hypothesis:
+			return "for"
+		else:
+			return "against"
+	
 	def get_summaries_voteinfo(self):
 		scores=Vote.objects.get_scores_in_bulk(self.summaries.all())
 		return scores

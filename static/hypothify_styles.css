@@ -15,8 +15,10 @@ body {background-color:#efe; text-align:left; color:#333; font-family: helvetica
 #topbar{background-color:#333; width:100%; padding:10px;color:#ccc}
 #topbar a{color:#47b8b8}
 
-h1 {font-size:720%; font-weight:lighter; color:#006B6B;margin:0px;padding:0}
-h2 {font-size:220%; font-weight:normal; color:#333; margin-top:40px}
+
+h1 {font-size:220%; font-weight:normal; color:#333; margin-top:40px}
+h2 {font-size:180%; font-weight:normal; color:#006B6B;margin-top:20px}
+
 h3 {font-size:180%; font-weight:normal; color:#006B6B}
 
 
@@ -45,7 +47,7 @@ p {margin:0px}
 .votescore{color:#b84747;margin-top:auto;margin-bottom:auto}
 
 
-#summarycontent{margin-top:24px}
+#summarycontent #evidencecontent{margin-top:24px}
 
 
 .itemcontent_topline{font-size:72%;color:#006b6b;margin-bottom:3px}

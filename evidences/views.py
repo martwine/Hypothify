@@ -3,7 +3,8 @@ from django.http import HttpResponseRedirect
 from django.template import RequestContext    
 from django.views.generic import CreateView
 from evidences.models import Evidence
-from evidences.forms import EvidenceForm, EvidenceDescriptionFormSet
+from evidences.forms import EvidenceForm  
+from evidences.forms import EvidenceDescriptionFormSet
 from hypotheses.models import Hypothesis
 from UTIs.models import Description
 
@@ -52,10 +53,10 @@ def evidencedetail(request,object_id,**kwargs):
 
     # get associated items ordered by vote 
     
-    s=e.get_ordered_summary_items()
+    d=e.get_ordered_description_items()
     
     #and get the 'best' / first one or return None if there aren't any at all
-    s1=s[0] if s else None
+    d1=d[0] if d else None
     
     h = e.hypothesis
     
@@ -64,8 +65,8 @@ def evidencedetail(request,object_id,**kwargs):
         'evidences/evidence_detail.html',
             {
                 'e':e, 
-                'e_sset':s,
-                'e_top_summ':s1,
+                'e_dset':d,
+                'e_top_desc':d1,
                 'h':h
             },
             context_instance=RequestContext(request)

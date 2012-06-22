@@ -1,6 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_form.html" %}
 
-{% block pagecontent %}
+{% block form %}
 <form method="post">{% csrf_token %}
 {{ form.as_p }}
 <input type="submit" value="Submit" />

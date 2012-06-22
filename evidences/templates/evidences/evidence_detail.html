@@ -21,22 +21,38 @@
 
 </script>
 {% endblock %}
+
+{% block title%}{{block.super}} evidence {{e.lcfor}} {{h}}{% endblock %}
+
 {% block hypothesis %}
-	<h2 class=grid_16>{{h}}</h2>
+	<h1 class="grid_16">Evidence: <a href="{{e.url}}">{{e}}</a></h1>
+	{% include "addthis_small.html" %}
+	<h2 class="grid_16">{{e.lcfor}} hypothesis: <a href="{{h.get_absolute_url}}">{{h}}</a></h2>
 	<div class="clear"></div>
 
-	{% include "addthis_small.html" %}
+	
 {% endblock %}
 
 {% block evidence %}
 	
 	{% load voting_tags %}
 
-	<h3 class="grid_11">evidence: {{e}}</h3>
-	<div class="clear"></div>
 	{% vote_by_user user on e as vote %}
     {% score_for_object e as score %}
-<div class="grid_2 voteblock">
+
+		<div id="evidencecontent" class="grid_10">
+
+			<p class="{{e.lcfor}}content_topline_left grid_5 alpha omega">For: {{e.evidence_type}}, {{e.originator_name}}</p>
+			<p class="{{e.lcfor}}content_topline_right grid_5 omega alpha">Added by {{e.introducer}}</p>
+			<p class="{{e.lcfor}}content_description">{% if e.get_top_description %}{{e.get_top_description}}{% else %}This evidence has not been described. Please <a href="{{e.get_absolute_url}}add_description">add one</a>{% endif %}</p>
+			<p class="{{e.lcfor}}content_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
+				
+			
+			<p class="leftitemfooter grid_5 alpha"><a href="{{e.get_absolute_url}}flag">Flag</a></p>
+			<p class="rightitemfooter grid_5 omega"><a href="{{e.get_absolute_url}}">&nbsp</a></p>
+			
+		</div>	
+		<div class="grid_1 voteblock">
 		
 	  <a href="" onclick="vote('{{e.id}}','{% if vote and vote.is_downvote %}clear{% else %}up{% endif %}');" name="evidence_{{e.id}}">
 	  	<img width="58px" id="upgif_{{e.id}}" src="{{ urlbase }}static/{% if vote and vote.is_upvote %}novote_up{% else %}vote_up{% endif %}.gif">
@@ -49,36 +65,9 @@
 	  </a>
 	 
 	</div>
-		<div class="evidenceitem grid_9">
-
-			{% if e.for_hypothesis %}
-				<div class="evidencebox_for">
-					<p class="forcontent_topline_left grid_5 alpha omega">For: {{e.evidence_type}}, {{e.originator_name}}</p>
-					<p class="forcontent_topline_right grid_4 omega alpha">Added by {{e.introducer}}</p>
-					<p class="forcontent_description">{{e.get_top_description}}</p>
-					<p class="forcontent_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
-				</div>
-			{% else %}
-				<div class="evidencebox_against">
-					<p class="againstcontent_topline_left grid_5 alpha omega">Against: {{e.evidence_type}}, {{e.originator_name}}</p>
-					<p class="againstcontent_topline_right grid_4 omega alpha">Added by {{e.introducer}}</p>
-					<p class="againstcontent_description">
-						{% if e.get_top_description %}
-							{{e.get_top_description}}
-						{% else %}
-							This evidence has not been described. Please <a href="{{e.get_absolute_url}}add_description">add one</a>
-						{% endif %}
-					</p>
-					<p class="againstcontent_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
-				</div>
-			{% endif %}
-			<p class="leftitemfooter grid_5 alpha"><a href="{{e.get_absolute_url}}flag">Flag</a></p>
-			<p class="rightitemfooter grid_4 omega"><a href="{{e.get_absolute_url}}">&nbsp</a></p>
-			
-		</div>	
 		<div class="clear"></div>	
 	<!-- AddThis Button BEGIN -->
-<div class="addthis_toolbox addthis_default_style addthis_32x32_style grid_9 prefix_2">
+<div class="addthis_toolbox addthis_default_style addthis_32x32_style grid_11">
 <a class="addthis_button_preferred_1"></a>
 <a class="addthis_button_preferred_2"></a>
 <a class="addthis_button_preferred_3"></a>
@@ -93,7 +82,7 @@
 {% endblock %}
 
 {% block comments %}
- 	<div id="disqus_thread" class="grid_12" style="padding-top:20px">
+ 	<div id="disqus_thread" class="grid_11" style="padding-top:20px">
 		<script type="text/javascript">
     		/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
     		var disqus_developer = 1; // developer mode is on
@@ -114,3 +103,8 @@
 		<div class="grid_4">&nbsp</div>
 		<div class="clear"></div>
 {% endblock %}
+
+{% block footer%}
+{{block.super}}
+{% include "disquscommentcounter.html"%}
+{% endblock%}
