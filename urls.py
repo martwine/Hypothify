@@ -21,8 +21,9 @@ urlpatterns = patterns('',
      (r'^$', ListView.as_view(model=Hypothesis,)),
 
      #accounts (login, logout etc)
-     (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'accounts/login.html'}),
-     (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
+     (r'^accounts/', include('registration.backends.default.urls')),
+     #(r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name': 'accounts/login.html'}),
+     #(r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
      
      (r'^hypothesis/add', login_required(HypothesisCreate.as_view(model=Hypothesis))),
      (r'^hypothesis/(?P<hypothesis_id>\d+)/$',detail),
