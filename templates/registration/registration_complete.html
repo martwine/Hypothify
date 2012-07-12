@@ -1,0 +1,11 @@
+{% extends "base.html"%}
+
+{% block title%}{{block.super}}registration_complete{% endblock %}
+
+
+
+{% block pagecontent %}
+	<p>Thanks for registering! A confirmation email should be with you shortly. Please click on the activation link in the email within 3 days to activate your account</p>
+	
+	<p><a href="{{urlbase}}accounts/login/">continue to login</a></p>
+{% endblock %}

@@ -1,0 +1,10 @@
+Thanks for registering to use Hypothify!
+
+Please use this link to activate your account:
+
+http://{{urlbase}}accounts/activate/{{activation_key}}
+
+This link will be valid for {{expiration_days}} days.
+
+
+

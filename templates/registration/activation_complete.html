@@ -1,0 +1,12 @@
+{% extends "base.html"%}
+
+{% block title%}{{block.super}}Something went wrong{% endblock %}
+
+
+
+{% block pagecontent %}
+<h2>Great! you're registered for hypothify</h2>
+
+<p>Please <a href="{{urlbase}}accounts/login/">login now</a></p>
+
+{% endblock %}
