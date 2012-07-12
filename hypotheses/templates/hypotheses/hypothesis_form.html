@@ -1,11 +1,11 @@
 {% extends "base_form.html" %}
 
-{% block title%}{{block.super}}add new hypothesis{% endblock %}
+{% block title%}{{block.super}}{% if edit %}edit hypothesis{% else %}add new hypothesis{% endif %}{% endblock %}
 
-{% block form_info %} Add new hypothesis:{% endblock %}
+{% block form_info %} {% if edit %}Edit hypothesis:{% else %}Add new hypothesis:{% endif %}{% endblock %}
 
 {% block form %}
-
+{% if permission or not edit %}
 <form method="post">{% csrf_token %}
 {{ form.as_p }}
 {{hypothesissummary_formset.management_form}}
@@ -17,8 +17,14 @@
 {% endfor %}
 <input type="submit" value="Submit" />
 </form>
-
+{% endif %}
 {% endblock %}
+
+
+{% block form_error %} 
+	{% if not permission and edit %}permission denied - you must be the proposer of this hypothesis to edit it{% endif %}
+{% endblock %}
+
 
 
 

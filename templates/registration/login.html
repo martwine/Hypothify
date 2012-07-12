@@ -1,0 +1,15 @@
+{% extends "base_form.html"%}
+
+{% block title%}{{block.super}}login{% endblock %}
+
+{% block form_info %}
+	Log in to hypothify
+{% endblock %}
+
+{% block form %}
+	<form action="/accounts/login/" method="post">{% csrf_token %}
+		{{form}}
+		<input type="submit" value="Login">
+	</form>
+{% endblock %}
+

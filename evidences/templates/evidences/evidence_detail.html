@@ -43,7 +43,7 @@
 		<div id="evidencecontent" class="grid_10">
 
 			<p class="{{e.lcfor}}content_topline_left grid_5 alpha omega">For: {{e.evidence_type}}, {{e.originator_name}}</p>
-			<p class="{{e.lcfor}}content_topline_right grid_5 omega alpha">Added by {{e.introducer}}</p>
+			<p class="{{e.lcfor}}content_topline_right grid_5 omega alpha">Added by <a href="{{e.introducer.get_absolute_url}}">{{e.introducer}}</a></p>
 			<p class="{{e.lcfor}}content_description">{% if e.get_top_description %}{{e.get_top_description}}{% else %}This evidence has not been described. Please <a href="{{e.get_absolute_url}}add_description">add one</a>{% endif %}</p>
 			<p class="{{e.lcfor}}content_linkline"><a href="{{e.url}}">{{e.url}}</a></p>
 				
@@ -66,18 +66,7 @@
 	 
 	</div>
 		<div class="clear"></div>	
-	<!-- AddThis Button BEGIN -->
-<div class="addthis_toolbox addthis_default_style addthis_32x32_style grid_11">
-<a class="addthis_button_preferred_1"></a>
-<a class="addthis_button_preferred_2"></a>
-<a class="addthis_button_preferred_3"></a>
-<a class="addthis_button_preferred_4"></a>
-<a class="addthis_button_compact"></a>
-<a class="addthis_counter addthis_bubble_style"></a>
-</div>
-<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-<script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js#pubid=ra-4fb69fc26ae9b252"></script>
-<!-- AddThis Button END -->
+
 
 {% endblock %}
 

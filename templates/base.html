@@ -22,9 +22,9 @@
 					<a class="grid_12 omega" href="http://www.hypothify.com"><b>hypothify</b></a>
 					<p id="accounts_topline" class="grid_4 alpha right">
 						{% if user.is_anonymous %}
-							<a href="{{urlbase}}accounts/login/">login</a>
+							<a href="{{urlbase}}accounts/login/">login</a> | <a href="{{urlbase}}accounts/register/">sign up</a>
 						{% else %}
-							logged in as <a href="{{urlbase}}profiles/1/" class="boldlink">{{user}}</a>
+							logged in as <a href="{{user.get_absolute_url}}" class="boldlink">{{user}}</a> | <a href="{{urlbase}}accounts/logout/">logout</a>
 						{% endif %}
 					</p>
 				</div>

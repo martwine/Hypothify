@@ -1,6 +1,6 @@
 from django.shortcuts import render_to_response, get_object_or_404
 from django.http import HttpResponseRedirect
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 from django.template import RequestContext	
 from hypotheses.models import Hypothesis
 from hypotheses.forms import HypothesisForm, HypothesisSummaryFormSet
@@ -40,6 +40,24 @@ class HypothesisCreate(CreateView):
 		else:
 			context['hypothesissummary_formset']=HypothesisSummaryFormSet(instance=self.object)
 		return(context)
+
+
+class HypothesisEdit(UpdateView):
+	def test_permission(self):
+		h=Hypothesis.objects.get(id=self.kwargs['pk'])
+		if self.request.user == h.proposer:
+			test = True
+		elif self.request.user.is_superuser:
+			test = True
+		else: test = False
+		return test
+
+	def get_context_data(self, **kwargs):
+		context = super(HypothesisEdit, self).get_context_data(**kwargs)
+		context['permission'] = self.test_permission()
+		context['edit'] = True
+		return(context)
+
 
 def detail(request,hypothesis_id,**kwargs):
 

@@ -10,12 +10,17 @@
 	</h2>
 	<div class="clear"></div>
 	
-
+	<div id="form_error" class="grid_12 prefix_2">
+		{% block form_error %}
+		{% endblock %}
+	</div>
+	
 	<div id="form" class="grid_12 prefix_2">
 		{% block form %}
 		{% endblock %}
 	</div>
 	<div class="clear"></div>
-
+	
+	
 	
 {% endblock %}

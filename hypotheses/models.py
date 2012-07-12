@@ -44,7 +44,7 @@ class Hypothesis(models.Model):
 		voted_ids=self.get_top_evidence_ids()
 		other_ids=[item.id for item in self.evidenceset.exclude(id__in=voted_ids)]
 		all_ids=voted_ids+other_ids
-		#in_bul doesn't preserve order to need to reorder afterwards
+		#in_bulk doesn't preserve order to need to reorder afterwards
 		unordered = Evidence.objects.in_bulk(all_ids)	
 		reordered = [unordered.get(id,None) for id in all_ids]
 		return filter(None, reordered)

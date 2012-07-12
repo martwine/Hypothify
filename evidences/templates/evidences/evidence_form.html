@@ -2,19 +2,33 @@
 
 {% block title%}{{block.super}}add new evidence{% endblock %}
 
-{% block form_info %} Add new evidence:{% endblock %}
 
-{% block form %}
-<form method="post">{% csrf_token %}
-{{ form.as_p }}
-{{evidencedescription_formset.management_form}}
-{% for form in evidencedescription_formset %}
-	{{form.id}}
-	{{form.content.label_tag}}
-	{{form.content}}
-	{{form.content.errors}}
-{% endfor %}
-<input type="submit" value="Submit" />
-</form>
 
-{% endblock %}
+	{% block form_info %} {%if edit%}Edit evidence item{% else %}Add new evidence:{% endif %}{% endblock %}
+
+	{% block form %}
+		{% if permission %}
+		<form method="post">{% csrf_token %}
+			{{ form.as_p }}
+			{{evidencedescription_formset.management_form}}
+			{% for form in evidencedescription_formset %}
+				{{form.id}}
+				{{form.content.label_tag}}
+				{{form.content}}
+				{{form.content.errors}}
+			{% endfor %}
+			<input type="submit" value="Submit" />
+		</form>
+		
+		{% else %}
+		&nbsp
+		{% endif %}
+	
+	{% endblock %}
+
+
+
+	{% block form_error %} 
+		{%if permission %}&nbsp{% else %}permission denied - you must be the proposer of this evidence to edit it{% endif %}
+	{% endblock %}
+
